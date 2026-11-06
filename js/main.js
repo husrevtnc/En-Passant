@@ -1088,7 +1088,7 @@
           ytPlayer = new YT.Player('yt-player', {
             height: '1', width: '1',
             videoId: id,
-            playerVars: { autoplay: 1, controls: 0, disablekb: 1, fs: 0, modestbranding: 1, playsinline: 1, rel: 0 },
+            playerVars: { autoplay: 1, controls: 0, disablekb: 1, fs: 0, modestbranding: 1, playsinline: 1, rel: 0, origin: window.location.origin && window.location.origin !== 'null' ? window.location.origin : undefined },
             events: {
               onReady: function (e) {
                 try { e.target.setVolume(parseInt(ytVol.value, 10) || 50); } catch (err) {}
@@ -1102,7 +1102,14 @@
                 else if (e.data === 2) ytSetStatus('Duraklatıldı.');
                 else if (e.data === 3) ytSetStatus('Yükleniyor...');
               },
-              onError: function (ev) { ytSetStatus('Video yüklenemedi (kod ' + (ev && ev.data) + ').'); }
+              onError: function (ev) {
+                var code = ev && ev.data;
+                if (code === 101 || code === 150 || code === 153) {
+                  ytSetStatus('Bu video gömülü oynatmayı desteklemiyor. Başka bir video deneyin.');
+                } else {
+                  ytSetStatus('Video yüklenemedi (kod ' + code + ').');
+                }
+              }
             }
           });
         } else {
