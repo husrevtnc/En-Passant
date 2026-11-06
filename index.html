@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="En Passant — tarayıcıda, aynı ekranda iki kişilik satranç.">
+  <meta name="theme-color" content="#201812">
+  <title>En Passant · Satranç</title>
+  <link rel="icon" type="image/svg+xml" href="assets/pieces/bn.svg">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#board">Tahtaya geç</a>
+
+  <div class="layout">
+    <header class="masthead">
+      <p class="wordmark">
+        <img class="mark" src="assets/pieces/wn.svg" alt="" aria-hidden="true">
+        <span class="name">En Passant</span>
+      </p>
+    </header>
+
+    <main class="board-col">
+      <div class="board-frame">
+        <div class="board" id="board" aria-label="Satranç tahtası"></div>
+      </div>
+    </main>
+
+    <aside class="panel" aria-label="Oyun paneli">
+      <section class="card status-card">
+        <h2 class="card-title">Durum</h2>
+        <p class="turn-row">
+          <span class="turn-dot w" id="turn-dot" aria-hidden="true"></span>
+          <strong id="turn-text">Sıra: Beyaz</strong>
+        </p>
+        <p class="status-note" id="status-note">Beyaz başlar. Taş seçmek için tıkla.</p>
+        <div class="clock-row">
+          <div class="clock w" id="clock-white"><span class="clock-label">Beyaz</span><span class="clock-time" id="clock-white-time">—</span></div>
+          <div class="clock b" id="clock-black"><span class="clock-label">Siyah</span><span class="clock-time" id="clock-black-time">—</span></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2 class="card-title">Hamleler</h2>
+        <ol id="move-list" class="move-list" aria-label="Hamle listesi"></ol>
+      </section>
+
+      <section class="card">
+        <h2 class="card-title">Alınan taşlar</h2>
+        <div class="cap-group">
+          <p class="cap-label">Beyaz'ın aldıkları <span class="mat-diff" id="diff-white"></span></p>
+          <div class="cap-row" id="cap-white"></div>
+        </div>
+        <div class="cap-group">
+          <p class="cap-label">Siyah'ın aldıkları <span class="mat-diff" id="diff-black"></span></p>
+          <div class="cap-row" id="cap-black"></div>
+        </div>
+      </section>
+
+      <section class="card controls-card">
+        <h2 class="card-title">Denetimler</h2>
+        <div class="btn-row">
+          <button id="btn-new" class="btn primary" type="button">Yeni Oyun</button>
+          <button id="btn-undo" class="btn" type="button">Geri Al</button>
+          <button id="btn-redo" class="btn" type="button">İleri Al</button>
+        </div>
+        <div class="btn-row">
+          <button id="btn-rotate" class="btn" type="button">Tahtayı Çevir</button>
+        </div>
+        <div class="switch-row">
+          <label class="switch">
+            <input type="checkbox" id="chk-flip" checked>
+            <span class="track" aria-hidden="true"></span>
+            Otomatik tahta çevirme
+          </label>
+        </div>
+      </section>
+    </aside>
+  </div>
+
+  <dialog id="promo-dialog" class="promo-dialog" aria-labelledby="promo-title">
+    <h2 id="promo-title">Terfi taşını seç</h2>
+    <div class="promo-grid" id="promo-grid"></div>
+    <p class="hint">Vazgeçmek için Esc'e bas.</p>
+  </dialog>
+
+  <dialog id="setup-dialog" class="setup-dialog" aria-labelledby="setup-title">
+    <h2 id="setup-title">Yeni oyun kurulumu</h2>
+    <p class="setup-msg">Oyun başlamadan önce süreyi belirleyin (dakika). Artım saniye cinsinden.</p>
+    <div class="setup-row">
+      <label>Beyaz (sn) <input type="number" id="inp-white" min="0" step="1" value="300"></label>
+      <label>Siyah (sn) <input type="number" id="inp-black" min="0" step="1" value="300"></label>
+      <label>Artım (sn) <input type="number" id="inp-inc" min="0" step="1" value="0"></label>
+    </div>
+    <p class="setup-hint">Süre 0 → süre kontrolü kapalı (süresiz).</p>
+    <div class="confirm-actions">
+      <button id="setup-cancel" class="btn" type="button">Vazgeç</button>
+      <button id="setup-start" class="btn primary" type="button">Başla</button>
+    </div>
+  </dialog>
+  <dialog id="confirm-dialog" class="confirm-dialog" aria-labelledby="confirm-title">
+    <h2 id="confirm-title">Yeni oyun?</h2>
+    <p id="confirm-msg" class="confirm-msg">Devam eden oyun silinecek. Yeni oyun başlatılsın mı?</p>
+    <div class="confirm-actions">
+      <button id="confirm-no" class="btn" type="button">Vazgeç</button>
+      <button id="confirm-yes" class="btn primary" type="button">Yeni Oyun</button>
+    </div>
+  </dialog>
+
+  <noscript><p class="noscript">Bu oyunun oynanabilmesi için JavaScript gerekir.</p></noscript>
+
+  <script src="js/engine.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
