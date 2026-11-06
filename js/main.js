@@ -693,18 +693,25 @@
     var inpW = document.getElementById('inp-white');
     var inpB = document.getElementById('inp-black');
     var inpI = document.getElementById('inp-inc');
-    if (inpW) inpW.value = (G.clockConfig && G.clockConfig.w) ? Math.round(G.clockConfig.w / 60000) : 5;
-    if (inpB) inpB.value = (G.clockConfig && G.clockConfig.b) ? Math.round(G.clockConfig.b / 60000) : 5;
+    function fmtMin(ms) {
+      if (!ms) return '0:00';
+      var s = Math.round(ms / 1000);
+      var m = Math.floor(s / 60);
+      var sec = s % 60;
+      return m + ':' + (sec < 10 ? '0' : '') + sec;
+    }
+    if (inpW) inpW.value = fmtMin(G.clockConfig && G.clockConfig.w ? G.clockConfig.w : 300000);
+    if (inpB) inpB.value = fmtMin(G.clockConfig && G.clockConfig.b ? G.clockConfig.b : 300000);
     if (inpI) inpI.value = (G.clockConfig && G.clockConfig.inc) ? Math.round(G.clockConfig.inc / 1000) : 0;
     setupDialog.showModal();
     if (inpW) inpW.focus();
   }
 
   function startFromSetup() {
-    var w = Math.max(0, parseInt(document.getElementById('inp-white').value, 10) || 0);
-    var b = Math.max(0, parseInt(document.getElementById('inp-black').value, 10) || 0);
+    var w = parseDuration(document.getElementById('inp-white').value);
+    var b = parseDuration(document.getElementById('inp-black').value);
     var inc = Math.max(0, parseInt(document.getElementById('inp-inc').value, 10) || 0);
-    G.clockConfig = { w: w * 60000, b: b * 60000, inc: inc * 1000 };
+    G.clockConfig = { w: w, b: b, inc: inc * 1000 };
     setupDialog.close();
     reset();
   }
@@ -792,6 +799,21 @@
     }
   }
 
+  function parseDuration(str) {
+    str = String(str || '').trim();
+    if (!str) return 0;
+    if (str.indexOf(':') >= 0) {
+      var parts = str.split(':');
+      var m = parseInt(parts[0], 10) || 0;
+      var sec = parseInt(parts[1], 10) || 0;
+      if (parts.length === 3) { /* h:m:s */ m = m * 60 + (parseInt(parts[1],10)||0); sec = parseInt(parts[2],10)||0; }
+      return (m * 60 + sec) * 1000;
+    }
+    // bare number: treat as minutes if < 60? Use minutes for consistency with prior UX.
+    var n = parseInt(str, 10);
+    if (isNaN(n)) return 0;
+    return n * 60 * 1000;
+  }
   function updateClockDisplay() {
     var cw = document.getElementById('clock-white-time');
     var cb = document.getElementById('clock-black-time');
@@ -806,7 +828,7 @@
       return m + '<span class="colon">:</span>' + (sec < 10 ? '0' : '') + sec;
     }
     if (!G.clock) {
-      cw.textContent = '∞'; cb.textContent = '∞';
+      cw.innerHTML = '∞'; cb.innerHTML = '∞';
       if (wc) wc.classList.remove('active', 'low');
       if (bc) bc.classList.remove('active', 'low');
       return;
@@ -1119,6 +1141,8 @@
     }
 
     if (btnYtLoad) btnYtLoad.addEventListener('click', ytLoad);
+    // preload API in background for faster first load
+    ytLoadApi();
     if (btnYtPlay) btnYtPlay.addEventListener('click', function () {
       if (ytPlayer && typeof ytPlayer.playVideo === 'function') { ytPlayer.playVideo(); ytSetStatus('Oynatılıyor.'); }
       else ytSetStatus('Önce bir link yükleyin.');

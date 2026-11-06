@@ -101,11 +101,11 @@
     <h2 id="setup-title">Yeni oyun kurulumu</h2>
     <p class="setup-msg">Oyun başlamadan önce süreyi belirleyin (dakika). Artım saniye cinsinden.</p>
     <div class="setup-row">
-      <label>Beyaz (dk) <input type="number" id="inp-white" min="0" step="1" value="5"></label>
-      <label>Siyah (dk) <input type="number" id="inp-black" min="0" step="1" value="5"></label>
+      <label>Beyaz <input type="text" id="inp-white" placeholder="5:00" value="5:00"></label>
+      <label>Siyah <input type="text" id="inp-black" placeholder="5:00" value="5:00"></label>
       <label>Artım (sn) <input type="number" id="inp-inc" min="0" step="1" value="0"></label>
     </div>
-    <p class="setup-hint">Süre 0 → süre kontrolü kapalı (süresiz).</p>
+    <p class="setup-hint">Süreyi dakika:saniye (5:30) veya dakika (5) olarak yazın. 0 → süresiz.</p>
     <div class="confirm-actions">
       <button id="setup-cancel" class="btn" type="button">Vazgeç</button>
       <button id="setup-start" class="btn primary" type="button">Başla</button>
