@@ -1041,6 +1041,84 @@
       if (G.autoFlip && !G.over) setOrientation(G.state.turn, true);
       save();
     });
+
+    // YouTube müzik
+    var btnYtLoad = document.getElementById('btn-yt-load');
+    var btnYtPlay = document.getElementById('btn-yt-play');
+    var btnYtPause = document.getElementById('btn-yt-pause');
+    var ytVol = document.getElementById('yt-vol');
+    var ytStatus = document.getElementById('yt-status');
+    var ytUrl = document.getElementById('yt-url');
+
+    function ytSetStatus(msg) { if (ytStatus) ytStatus.textContent = msg; }
+
+    function ytParseId(url) {
+      if (!url) return null;
+      var m = url.match(/(?:v=|youtu\.be\/|embed\/|shorts\/|live\/)([A-Za-z0-9_-]{11})/);
+      return m ? m[1] : null;
+    }
+
+    function ytLoadApi() {
+      return new Promise(function (resolve) {
+        if (window.YT && window.YT.Player) { resolve(); return; }
+        if (!document.querySelector('script[src*="iframe_api"]')) {
+          var tag = document.createElement('script');
+          tag.src = 'https://www.youtube.com/iframe_api';
+          document.head.appendChild(tag);
+        }
+        var iv = setInterval(function () {
+          if (window.YT && window.YT.Player) { clearInterval(iv); resolve(); }
+        }, 200);
+        setTimeout(function () { clearInterval(iv); resolve(); }, 8000);
+      });
+    }
+
+    var ytPlayer = null;
+
+    function ytLoad() {
+      var id = ytParseId(ytUrl ? ytUrl.value.trim() : '');
+      if (!id) { ytSetStatus('Geçersiz YouTube linki.'); return; }
+      ytSetStatus('Yükleniyor...');
+      ytLoadApi().then(function () {
+        if (typeof YT === 'undefined' || !YT.Player) { ytSetStatus('YouTube API yüklenemedi.'); return; }
+        if (!ytPlayer) {
+          ytPlayer = new YT.Player('yt-player', {
+            height: '1', width: '1',
+            videoId: id,
+            playerVars: { autoplay: 1, controls: 0, disablekb: 1, fs: 0, modestbranding: 1, playsinline: 1, rel: 0 },
+            events: {
+              onReady: function (e) {
+                try { e.target.setVolume(parseInt(ytVol.value, 10) || 50); } catch (err) {}
+                try { e.target.playVideo(); } catch (err) {}
+                ytSetStatus('Oynatılıyor.');
+              },
+              onStateChange: function (e) {
+                // 0=ended, 1=playing, 2=paused, 3=buffering
+                if (e.data === 0) ytSetStatus('Bitti.');
+                else if (e.data === 1) ytSetStatus('Oynatılıyor.');
+                else if (e.data === 2) ytSetStatus('Duraklatıldı.');
+                else if (e.data === 3) ytSetStatus('Yükleniyor...');
+              },
+              onError: function () { ytSetStatus('Video yüklenemedi (kısıtlı olabilir).'); }
+            }
+          });
+        } else {
+          try { ytPlayer.loadVideoById(id); ytPlayer.playVideo(); ytSetStatus('Oynatılıyor.'); } catch (err) { ytSetStatus('Oynatma hatası.'); }
+        }
+      });
+    }
+
+    if (btnYtLoad) btnYtLoad.addEventListener('click', ytLoad);
+    if (btnYtPlay) btnYtPlay.addEventListener('click', function () {
+      if (ytPlayer && typeof ytPlayer.playVideo === 'function') { ytPlayer.playVideo(); ytSetStatus('Oynatılıyor.'); }
+      else ytSetStatus('Önce bir link yükleyin.');
+    });
+    if (btnYtPause) btnYtPause.addEventListener('click', function () {
+      if (ytPlayer && typeof ytPlayer.pauseVideo === 'function') { ytPlayer.pauseVideo(); ytSetStatus('Duraklatıldı.'); }
+    });
+    if (ytVol) ytVol.addEventListener('input', function () {
+      if (ytPlayer && typeof ytPlayer.setVolume === 'function') ytPlayer.setVolume(parseInt(ytVol.value, 10) || 0);
+    });
   }
 
   buildBoard();

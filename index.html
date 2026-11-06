@@ -58,8 +58,20 @@
         </div>
       </section>
 
-      <section class="card controls-card">
-        <h2 class="card-title">Denetimler</h2>
+      <section class="card">
+        <h2 class="card-title">Müzik (YouTube)</h2>
+        <div class="music-row">
+          <input type="text" id="yt-url" class="music-input" placeholder="YouTube linki yapıştır">
+          <button id="btn-yt-load" class="btn" type="button">Yükle</button>
+        </div>
+        <div class="music-controls">
+          <button id="btn-yt-play" class="btn" type="button">▶ Oynat</button>
+          <button id="btn-yt-pause" class="btn" type="button">❚❚ Duraklat</button>
+          <label class="vol-label">Ses <input type="range" id="yt-vol" min="0" max="100" value="50"></label>
+        </div>
+        <p class="music-status" id="yt-status">Link yok.</p>
+      </section>
+      <div id="yt-player" class="yt-hidden"></div>
         <div class="btn-row">
           <button id="btn-new" class="btn primary" type="button">Yeni Oyun</button>
           <button id="btn-undo" class="btn" type="button">Geri Al</button>

@@ -476,7 +476,51 @@ button { font: inherit; }
   outline-offset: 2px;
 }
 
-/* ---------- iletişim kutuları ---------- */
+.music-row {
+  display: flex;
+  gap: 0.4rem;
+  margin-bottom: 0.5rem;
+}
+.music-input {
+  flex: 1;
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  color: var(--text);
+  border-radius: 8px;
+  padding: 0.4rem 0.6rem;
+  font: inherit;
+  font-size: 0.85rem;
+}
+.music-controls {
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.music-controls .btn { flex: 0 0 auto; padding: 0.4rem 0.7rem; }
+.vol-label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin-left: auto;
+}
+.vol-label input { width: 90px; }
+.music-status {
+  margin: 0.4rem 0 0;
+  font-size: 0.75rem;
+  color: var(--muted);
+  min-height: 1.1em;
+}
+.yt-hidden {
+  position: fixed;
+  left: -9999px;
+  top: 0;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
 dialog {
   border: 1px solid var(--line);
   border-radius: 12px;
