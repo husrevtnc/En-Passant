@@ -693,8 +693,8 @@
     var inpW = document.getElementById('inp-white');
     var inpB = document.getElementById('inp-black');
     var inpI = document.getElementById('inp-inc');
-    if (inpW) inpW.value = (G.clockConfig && G.clockConfig.w) ? Math.round(G.clockConfig.w / 1000) : 300;
-    if (inpB) inpB.value = (G.clockConfig && G.clockConfig.b) ? Math.round(G.clockConfig.b / 1000) : 300;
+    if (inpW) inpW.value = (G.clockConfig && G.clockConfig.w) ? Math.round(G.clockConfig.w / 60000) : 5;
+    if (inpB) inpB.value = (G.clockConfig && G.clockConfig.b) ? Math.round(G.clockConfig.b / 60000) : 5;
     if (inpI) inpI.value = (G.clockConfig && G.clockConfig.inc) ? Math.round(G.clockConfig.inc / 1000) : 0;
     setupDialog.showModal();
     if (inpW) inpW.focus();
@@ -704,7 +704,7 @@
     var w = Math.max(0, parseInt(document.getElementById('inp-white').value, 10) || 0);
     var b = Math.max(0, parseInt(document.getElementById('inp-black').value, 10) || 0);
     var inc = Math.max(0, parseInt(document.getElementById('inp-inc').value, 10) || 0);
-    G.clockConfig = { w: w * 1000, b: b * 1000, inc: inc * 1000 };
+    G.clockConfig = { w: w * 60000, b: b * 60000, inc: inc * 1000 };
     setupDialog.close();
     reset();
   }
@@ -800,7 +800,10 @@
     if (!cw || !cb) return;
     function fmt(ms) {
       if (ms == null) return '—';
-      return String(Math.ceil(ms / 1000));
+      var s = Math.ceil(ms / 1000);
+      var m = Math.floor(s / 60);
+      var sec = s % 60;
+      return m + ':' + (sec < 10 ? '0' : '') + sec;
     }
     if (!G.clock) {
       cw.textContent = '∞'; cb.textContent = '∞';
