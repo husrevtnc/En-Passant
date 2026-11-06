@@ -1069,7 +1069,7 @@
         var iv = setInterval(function () {
           if (window.YT && window.YT.Player) { clearInterval(iv); resolve(); }
         }, 200);
-        setTimeout(function () { clearInterval(iv); resolve(); }, 8000);
+        setTimeout(function () { clearInterval(iv); resolve(); }, 15000);
       });
     }
 
@@ -1099,7 +1099,7 @@
                 else if (e.data === 2) ytSetStatus('Duraklatıldı.');
                 else if (e.data === 3) ytSetStatus('Yükleniyor...');
               },
-              onError: function () { ytSetStatus('Video yüklenemedi (kısıtlı olabilir).'); }
+              onError: function (ev) { ytSetStatus('Video yüklenemedi (kod ' + (ev && ev.data) + ').'); }
             }
           });
         } else {
