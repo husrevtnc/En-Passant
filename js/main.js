@@ -185,7 +185,10 @@
   /* ============================================================
      Çizim
      ============================================================ */
-  function srcOf(p) { return 'assets/pieces/' + p.c + p.t + '.svg'; }
+  function srcOf(p) {
+    if (!p || !/^[wb]$/.test(p.c) || !/^[pnbrqk]$/.test(p.t)) return null;
+    return 'assets/pieces/' + p.c + p.t + '.svg';
+  }
 
   function fillCapRow(el, types, diff) {
     el.innerHTML = '';
@@ -218,9 +221,10 @@
         var p = G.state.board[r * 8 + c];
 
         if (p) {
-          if (img.getAttribute('src') !== srcOf(p)) img.src = srcOf(p);
-          img.hidden = false;
-          sq.setAttribute('aria-label', E.sqName(r, c) + ', ' + TR_SIDE[p.c].toLocaleLowerCase('tr') + ' ' + TR_PIECE[p.t]);
+          var s = srcOf(p);
+          if (s && img.getAttribute('src') !== s) img.src = s;
+          img.hidden = !s;
+          sq.setAttribute('aria-label', E.sqName(r, c) + ', ' + (TR_SIDE[p.c] || '') + ' ' + (TR_PIECE[p.t] || ''));
         } else {
           img.hidden = true;
           img.removeAttribute('src');
@@ -886,23 +890,42 @@
   }
 
   function deserializeState(d) {
+    if (!d || typeof d !== 'object') return null;
+    if (typeof d.b !== 'string' || d.b.length !== 64) return null;
+    var turn = d.t === 'w' || d.t === 'b' ? d.t : null;
+    if (!turn) return null;
+    var k = (typeof d.k === 'string') ? d.k : '';
+    // castling flags subset of KQkq
+    if (!/^[KQkq]*$/.test(k)) return null;
     var board = new Array(64).fill(null);
     for (var i = 0; i < 64; i++) {
       var ch = d.b[i];
-      if (ch && ch !== '.') board[i] = { t: ch[1], c: ch[0] };
+      if (ch === '.') continue;
+      if (!/^[wb][pnbrqk]$/.test(ch)) return null;
+      board[i] = { t: ch[1], c: ch[0] };
     }
+    var ep = -1;
+    if (Number.isInteger(d.e) && d.e >= -1 && d.e < 64) ep = d.e;
+    else if (d.e === undefined || d.e === null) ep = -1;
+    else return null;
+    var hm = Number.isInteger(d.h) && d.h >= 0 && d.h <= 200 ? d.h : 0;
+    var fm = Number.isInteger(d.f) && d.f >= 1 && d.f <= 100000 ? d.f : 1;
+    // castling rights
+    var castling = {
+      wk: k.indexOf('K') >= 0,
+      wq: k.indexOf('Q') >= 0,
+      bk: k.indexOf('k') >= 0,
+      bq: k.indexOf('q') >= 0
+    };
+    // ep index to {r,c}
+    var epObj = ep >= 0 ? { r: Math.floor(ep / 8), c: ep % 8 } : null;
     return {
       board: board,
-      turn: d.t === 'b' ? 'b' : 'w',
-      castling: {
-        wk: d.k.indexOf('K') >= 0,
-        wq: d.k.indexOf('Q') >= 0,
-        bk: d.k.indexOf('k') >= 0,
-        bq: d.k.indexOf('q') >= 0
-      },
-      ep: d.e >= 0 ? { r: Math.floor(d.e / 8), c: d.e % 8 } : null,
-      halfmove: d.h || 0,
-      fullmove: d.f || 1
+      turn: turn,
+      castling: castling,
+      ep: epObj,
+      halfmove: hm,
+      fullmove: fm
     };
   }
 
@@ -943,8 +966,9 @@
       for (var i = 0; i < data.hist.length; i++) {
         var en = data.hist[i];
         var st = deserializeState(en.s);
-        G.hist.push({ state: st, san: en.n || null, lastMove: en.m || null });
-        if (en.n) G.moves.push(en.n);
+        if (!st) return false;
+        G.hist.push({ state: st, san: (typeof en.n === 'string' ? en.n : null), lastMove: en.m || null });
+        if (typeof en.n === 'string') G.moves.push(en.n);
       }
       G.redo = [];
       if (Array.isArray(data.redo)) {
@@ -958,7 +982,14 @@
       G.state = cloneState(last.state);
       G.lastMove = last.lastMove || null;
       G.autoFlip = data.flip !== false;
-      if (data.clockConfig) G.clockConfig = data.clockConfig;
+      if (data.clockConfig && data.clockConfig.w != null) {
+        var cc = data.clockConfig;
+        var clamp = function (v) { return Math.max(0, Math.min(10000000, (Number.isFinite(v) ? v : 0))); };
+        G.clockConfig = {
+          w: clamp(cc.w), b: clamp(cc.b),
+          inc: clamp(cc.inc)
+        };
+      }
 
       clearSelection();
       rebuildReps();
