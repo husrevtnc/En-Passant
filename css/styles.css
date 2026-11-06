@@ -653,4 +653,4 @@ dialog h2 {
   }
 }
 
-.clock .clock-time .colon { color: var(--accent); font-weight: 900; margin: 0 2px; display: inline-block; font-size: 1.4rem; line-height: 1; vertical-align: middle; }
+.clock .clock-time .colon { color: var(--accent); font-weight: 700; margin: 0 1px; }
