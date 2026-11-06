@@ -803,7 +803,7 @@
       var s = Math.ceil(ms / 1000);
       var m = Math.floor(s / 60);
       var sec = s % 60;
-      return m + ':' + (sec < 10 ? '0' : '') + sec;
+      return m + '<span class="colon">:</span>' + (sec < 10 ? '0' : '') + sec;
     }
     if (!G.clock) {
       cw.textContent = '∞'; cb.textContent = '∞';
@@ -811,8 +811,8 @@
       if (bc) bc.classList.remove('active', 'low');
       return;
     }
-    cw.textContent = fmt(G.clock.w);
-    cb.textContent = fmt(G.clock.b);
+    cw.innerHTML = fmt(G.clock.w);
+    cb.innerHTML = fmt(G.clock.b);
     if (wc) { wc.classList.toggle('active', G.clock.running === 'w'); wc.classList.toggle('low', G.clock.w < 20000); }
     if (bc) { bc.classList.toggle('active', G.clock.running === 'b'); bc.classList.toggle('low', G.clock.b < 20000); }
   }

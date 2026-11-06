@@ -320,7 +320,12 @@ button { font: inherit; }
   font-variant-numeric: tabular-nums;
 }
 .clock .clock-label { font-size: 0.75rem; color: var(--muted); }
-.clock .clock-time { font-weight: 700; font-size: 1rem; }
+.clock .clock-time { 
+  font-weight: 700; 
+  font-size: 1.15rem; 
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  letter-spacing: 0.02em;
+}
 .clock.low .clock-time { color: var(--danger); }
 .clock.active { border-color: var(--accent); }
 .time-control { margin-top: 0.6rem; }
@@ -647,3 +652,5 @@ dialog h2 {
     animation-duration: 0.01ms !important;
   }
 }
+
+.clock .clock-time .colon { color: var(--accent); font-weight: 900; margin: 0 2px; display: inline-block; font-size: 1.4rem; line-height: 1; vertical-align: middle; }
