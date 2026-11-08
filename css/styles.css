@@ -862,11 +862,18 @@ html[data-theme="emerald"] {
   align-items: center;
   gap: 0.5rem;
 }
-.btn-icon {
-  padding: 0.45rem 0.6rem;
-  font-size: 1.1rem;
-  line-height: 1;
+.btn-home {
+  background: transparent;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
 }
+.btn-home:hover:not(:disabled) { background: var(--accent); color: var(--accent-ink); }
 
 .masthead {
   display: flex;
