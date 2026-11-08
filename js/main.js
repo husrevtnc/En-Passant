@@ -29,7 +29,6 @@
   var btnUndo = $('#btn-undo');
   var btnRedo = $('#btn-redo');
   var btnRotate = $('#btn-rotate');
-  var chkFlip = $('#chk-flip');
   var promoDialog = $('#promo-dialog');
   var promoGrid = $('#promo-grid');
   var setupDialog = $('#setup-dialog');
@@ -1073,11 +1072,15 @@
       btn.className = 'theme-swatch' + (t.id === (G.theme || 'default') ? ' active' : '');
       btn.dataset.theme = t.id;
       btn.setAttribute('aria-label', t.name);
+      // 4x4 mini board preview in theme colors + a knight piece
+      var cells = '';
+      for (var i = 0; i < 16; i++) {
+        var light = ((Math.floor(i / 4) + (i % 4)) % 2 === 0);
+        cells += '<span class="sq ' + (light ? 'sqL' : 'sqD') + '" style="background:' + (light ? t.sqL : t.sqD) + '"></span>';
+      }
       btn.innerHTML = '<span class="swatch-preview" style="background:' + t.bg + '">' +
-        '<span class="sq" style="background:' + t.sqL + '"><span class="piece white">♞</span></span>' +
-        '<span class="sq" style="background:' + t.sqD + '"><span class="piece black">♞</span></span>' +
-        '<span class="sq" style="background:' + t.sqD + '"></span>' +
-        '<span class="sq" style="background:' + t.sqL + '"></span>' +
+        '<span class="mini-board">' + cells + '</span>' +
+        '<img class="swatch-piece" src="assets/pieces/bn.svg" alt="">' +
         '</span><span class="swatch-name">' + t.name + '</span>';
       btn.addEventListener('click', function () {
         applyTheme(t.id);
@@ -1195,17 +1198,10 @@
       if (vm) vm.classList.remove('hidden');
     });
 
-    chkFlip.checked = G.autoFlip;
-    chkFlip.addEventListener('change', function () {
-      G.autoFlip = chkFlip.checked;
-      if (menuFlip) menuFlip.checked = G.autoFlip;
-      if (G.autoFlip && !G.over) setOrientation(G.state.turn, true);
-      save();
-    });
     if (menuFlip) {
+      menuFlip.checked = G.autoFlip;
       menuFlip.addEventListener('change', function () {
         G.autoFlip = menuFlip.checked;
-        chkFlip.checked = G.autoFlip;
         if (G.autoFlip && !G.over) setOrientation(G.state.turn, true);
         save();
       });
