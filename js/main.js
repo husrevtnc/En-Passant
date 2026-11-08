@@ -1193,7 +1193,12 @@
       { id: 'sepia', name: 'Sepya', sqL: '#f0d9b5', sqD: '#b58863', bg: '#f4ecd8' },
       { id: 'slate', name: 'Grafit', sqL: '#d4d4d8', sqD: '#6b7280', bg: '#1e2329' },
       { id: 'rose', name: 'Gül', sqL: '#fce4ec', sqD: '#c97b9a', bg: '#2a1420' },
-      { id: 'emerald', name: 'Zümrüt', sqL: '#e8d8a8', sqD: '#4f7f6a', bg: '#0d1f1a' }
+      { id: 'emerald', name: 'Zümrüt', sqL: '#e8d8a8', sqD: '#4f7f6a', bg: '#0d1f1a' },
+      { id: 'tam-siyah', name: 'Tamamen Siyah', sqL: '#2a2a2a', sqD: '#111111', bg: '#000000' },
+      { id: 'tam-beyaz', name: 'Tamamen Beyaz', sqL: '#eaeaea', sqD: '#bfbfbf', bg: '#ffffff' },
+      { id: 'cyber-neon', name: 'Cyber Neon', sqL: '#1a1a3e', sqD: '#0f3460', bg: '#050510' },
+      { id: 'autumn', name: 'Sonbahar', sqL: '#deb887', sqD: '#8b4513', bg: '#2b1d0e' },
+      { id: 'lavender', name: 'Lavanta', sqL: '#e6e0f8', sqD: '#9b8fc9', bg: '#1a1423' }
     ];
     themes.forEach(function (t) {
       var btn = document.createElement('button');
