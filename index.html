@@ -13,13 +13,31 @@
 <body>
   <a class="skip-link" href="#board">Tahtaya geç</a>
 
-  <div class="layout">
+  <!-- Ana menü görünümü -->
+  <div id="view-menu" class="view view-menu">
+    <div class="menu-hero">
+      <img class="hero-piece" src="assets/pieces/wn.svg" alt="" aria-hidden="true">
+      <h1 class="hero-title">En Passant</h1>
+      <p class="hero-tag">Aynı ekranda iki kişilik satranç</p>
+      <div class="hero-actions">
+        <button id="hero-play" class="btn btn-xl primary" type="button">Oyuna Başla</button>
+        <button id="hero-settings" class="btn btn-xl" type="button">Ayarlar & Temalar</button>
+      </div>
+      <div class="hero-themes" id="hero-themes"></div>
+    </div>
+  </div>
+
+  <!-- Oyun görünümü -->
+  <div id="view-game" class="view view-game hidden">
     <header class="masthead">
       <p class="wordmark">
         <img class="mark" src="assets/pieces/wn.svg" alt="" aria-hidden="true">
         <span class="name">En Passant</span>
       </p>
-      <button id="btn-menu" class="btn btn-menu" type="button" aria-label="Menü ve ayarlar">☰ Menü</button>
+      <div class="masthead-actions">
+        <button id="btn-home" class="btn btn-icon" type="button" aria-label="Ana menü">⌂</button>
+        <button id="btn-menu" class="btn btn-menu" type="button" aria-label="Menü ve ayarlar">☰</button>
+      </div>
     </header>
 
     <main class="board-col">

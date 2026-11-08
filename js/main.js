@@ -1083,6 +1083,38 @@
     });
   }
 
+  function populateHeroThemes(container) {
+    if (!container) return;
+    container.innerHTML = '';
+    var themes = [
+      { id: 'default', bg: '#201812' },
+      { id: 'light', bg: '#f5efe6' },
+      { id: 'midnight', bg: '#0b1220' },
+      { id: 'ocean', bg: '#0a192f' },
+      { id: 'forest', bg: '#0f1f17' },
+      { id: 'crimson', bg: '#1f0f14' },
+      { id: 'sepia', bg: '#f4ecd8' },
+      { id: 'slate', bg: '#1e2329' },
+      { id: 'rose', bg: '#2a1420' },
+      { id: 'emerald', bg: '#0d1f1a' }
+    ];
+    themes.forEach(function (t) {
+      var dot = document.createElement('button');
+      dot.type = 'button';
+      dot.className = 'hero-theme-dot' + (t.id === (G.theme || 'default') ? ' active' : '');
+      dot.style.background = t.bg;
+      dot.setAttribute('aria-label', t.id);
+      dot.addEventListener('click', function () {
+        applyTheme(t.id);
+        save();
+        populateHeroThemes(container);
+        var tg = document.getElementById('theme-grid');
+        if (tg) populateThemeGrid(tg);
+      });
+      container.appendChild(dot);
+    });
+  }
+
   function applyTheme(name) {
     if (!name) name = 'default';
     document.documentElement.setAttribute('data-theme', name === 'default' ? '' : name);
@@ -1093,6 +1125,13 @@
   }
 
   function wireControls() {
+    var viewMenu = document.getElementById('view-menu');
+    var viewGame = document.getElementById('view-game');
+    function showGame() { if (viewMenu) viewMenu.classList.add('hidden'); if (viewGame) viewGame.classList.remove('hidden'); }
+    function showMenu() { if (viewGame) viewGame.classList.add('hidden'); if (viewMenu) viewMenu.classList.remove('hidden'); }
+    window.__showGame = showGame;
+    window.__showMenu = showMenu;
+
     btnNew.addEventListener('click', newGame);
     btnUndo.addEventListener('click', undo);
     btnRedo.addEventListener('click', redo);
@@ -1116,6 +1155,25 @@
       });
     }
     if (menuClose && menuDialog) menuClose.addEventListener('click', function () { menuDialog.close(); });
+
+    /* ana menü */
+    var heroPlay = document.getElementById('hero-play');
+    var heroSettings = document.getElementById('hero-settings');
+    var btnHome = document.getElementById('btn-home');
+    var heroThemes = document.getElementById('hero-themes');
+    if (heroThemes) populateHeroThemes(heroThemes);
+    if (heroPlay) heroPlay.addEventListener('click', function () {
+      showGame();
+      openSetup();
+    });
+    if (heroSettings) heroSettings.addEventListener('click', function () {
+      if (menuFlip) menuFlip.checked = G.autoFlip;
+      if (themeGrid) populateThemeGrid(themeGrid);
+      if (menuDialog) menuDialog.showModal();
+    });
+    if (btnHome) btnHome.addEventListener('click', function () {
+      showMenu();
+    });
 
     chkFlip.checked = G.autoFlip;
     chkFlip.addEventListener('change', function () {
@@ -1244,6 +1302,10 @@
     setTimeout(openSetup, 300);
   } else {
     chkFlip.checked = G.autoFlip;
+    var vm = document.getElementById('view-menu');
+    var vg = document.getElementById('view-game');
+    if (vm) vm.classList.add('hidden');
+    if (vg) vg.classList.remove('hidden');
   }
 
   applyTheme(G.theme || 'default');
