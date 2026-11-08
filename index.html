@@ -19,6 +19,7 @@
         <img class="mark" src="assets/pieces/wn.svg" alt="" aria-hidden="true">
         <span class="name">En Passant</span>
       </p>
+      <button id="btn-menu" class="btn btn-menu" type="button" aria-label="Menü ve ayarlar">☰ Menü</button>
     </header>
 
     <main class="board-col">
@@ -72,6 +73,9 @@
         <p class="music-status" id="yt-status">Link yok.</p>
       </section>
       <div id="yt-player" class="yt-hidden"></div>
+
+      <section class="card controls-card">
+        <h2 class="card-title">Denetimler</h2>
         <div class="btn-row">
           <button id="btn-new" class="btn primary" type="button">Yeni Oyun</button>
           <button id="btn-undo" class="btn" type="button">Geri Al</button>
@@ -87,21 +91,6 @@
             Otomatik tahta çevirme
           </label>
         </div>
-        <div class="time-control">
-          <label for="sel-theme" class="tc-label">Tema</label>
-          <select id="sel-theme" class="tc-select">
-            <option value="default">Klasik Ahşap</option>
-            <option value="light">Açık Ahşap</option>
-            <option value="midnight">Gece mavisi</option>
-            <option value="ocean">Okyanus</option>
-            <option value="forest">Orman</option>
-            <option value="crimson">Bordo</option>
-            <option value="sepia">Sepya</option>
-            <option value="slate">Grafit</option>
-            <option value="rose">Gül</option>
-            <option value="emerald">Zümrüt</option>
-          </select>
-        </div>
       </section>
     </aside>
   </div>
@@ -112,20 +101,6 @@
     <p class="hint">Vazgeçmek için Esc'e bas.</p>
   </dialog>
 
-  <dialog id="setup-dialog" class="setup-dialog" aria-labelledby="setup-title">
-    <h2 id="setup-title">Yeni oyun kurulumu</h2>
-    <p class="setup-msg">Oyun başlamadan önce süreyi belirleyin (dakika). Artım saniye cinsinden.</p>
-    <div class="setup-row">
-      <label>Beyaz <input type="text" id="inp-white" placeholder="5:00" value="5:00"></label>
-      <label>Siyah <input type="text" id="inp-black" placeholder="5:00" value="5:00"></label>
-      <label>Artım (sn) <input type="number" id="inp-inc" min="0" step="1" value="0"></label>
-    </div>
-    <p class="setup-hint">Süreyi dakika:saniye (5:30) veya dakika (5) olarak yazın. 0 → süresiz.</p>
-    <div class="confirm-actions">
-      <button id="setup-cancel" class="btn" type="button">Vazgeç</button>
-      <button id="setup-start" class="btn primary" type="button">Başla</button>
-    </div>
-  </dialog>
   <dialog id="confirm-dialog" class="confirm-dialog" aria-labelledby="confirm-title">
     <h2 id="confirm-title">Yeni oyun?</h2>
     <p id="confirm-msg" class="confirm-msg">Devam eden oyun silinecek. Yeni oyun başlatılsın mı?</p>
@@ -134,6 +109,42 @@
       <button id="confirm-yes" class="btn primary" type="button">Yeni Oyun</button>
     </div>
   </dialog>
+
+  <dialog id="setup-dialog" class="setup-dialog" aria-labelledby="setup-title">
+    <h2 id="setup-title">Yeni oyun kurulumu</h2>
+    <p class="setup-msg">Oyun başlamadan önce süreyi belirleyin (dakika:saniye). Örn. 5:00 veya 5. Artım saniye cinsinden.</p>
+    <div class="setup-row">
+      <label>Beyaz <input type="text" id="inp-white" placeholder="5:00" value="5:00"></label>
+      <label>Siyah <input type="text" id="inp-black" placeholder="5:00" value="5:00"></label>
+      <label>Artım (sn) <input type="number" id="inp-inc" min="0" step="1" value="0"></label>
+    </div>
+    <p class="setup-hint">Süre 0 → süre kontrolü kapalı (süresiz).</p>
+    <div class="confirm-actions">
+      <button id="setup-cancel" class="btn" type="button">Vazgeç</button>
+      <button id="setup-start" class="btn primary" type="button">Başla</button>
+    </div>
+  </dialog>
+
+  <dialog id="menu-dialog" class="menu-dialog" aria-labelledby="menu-title">
+    <h2 id="menu-title">Menü & Ayarlar</h2>
+    <section class="menu-section">
+      <h3>Tema</h3>
+      <div class="theme-grid" id="theme-grid"></div>
+    </section>
+    <section class="menu-section">
+      <h3>Ayarlar</h3>
+      <label class="switch">
+        <input type="checkbox" id="menu-flip">
+        <span class="track" aria-hidden="true"></span>
+        Otomatik tahta çevirme
+      </label>
+    </section>
+    <div class="confirm-actions">
+      <button id="menu-close" class="btn" type="button">Kapat</button>
+    </div>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
   <noscript><p class="noscript">Bu oyunun oynanabilmesi için JavaScript gerekir.</p></noscript>
 

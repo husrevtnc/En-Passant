@@ -1052,6 +1052,37 @@
     confirmResolver = null;
   });
   confirmDialog.addEventListener('close', function () { confirmResolver = null; });
+  function populateThemeGrid(grid) {
+    if (!grid) return;
+    grid.innerHTML = '';
+    var themes = [
+      { id: 'default', name: 'Klasik Ahşap', sqL: '#f0d9b5', sqD: '#b58863', bg: '#201812' },
+      { id: 'light', name: 'Açık Ahşap', sqL: '#f0d9b5', sqD: '#b58863', bg: '#f5efe6' },
+      { id: 'midnight', name: 'Gece Mavisi', sqL: '#cfd8e6', sqD: '#5b6b8a', bg: '#0b1220' },
+      { id: 'ocean', name: 'Okyanus', sqL: '#d6e4f0', sqD: '#4a90d9', bg: '#0a192f' },
+      { id: 'forest', name: 'Orman', sqL: '#e8d8b0', sqD: '#5d8a4f', bg: '#0f1f17' },
+      { id: 'crimson', name: 'Bordo', sqL: '#f0d9b5', sqD: '#a04040', bg: '#1f0f14' },
+      { id: 'sepia', name: 'Sepya', sqL: '#f0d9b5', sqD: '#b58863', bg: '#f4ecd8' },
+      { id: 'slate', name: 'Grafit', sqL: '#d4d4d8', sqD: '#6b7280', bg: '#1e2329' },
+      { id: 'rose', name: 'Gül', sqL: '#fce4ec', sqD: '#c97b9a', bg: '#2a1420' },
+      { id: 'emerald', name: 'Zümrüt', sqL: '#e8d8a8', sqD: '#4f7f6a', bg: '#0d1f1a' }
+    ];
+    themes.forEach(function (t) {
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'theme-swatch' + (t.id === (G.theme || 'default') ? ' active' : '');
+      btn.dataset.theme = t.id;
+      btn.setAttribute('aria-label', t.name);
+      btn.innerHTML = '<span class="swatch-preview" style="background:' + t.bg + '"><span style="background:' + t.sqL + '"></span><span style="background:' + t.sqD + '"></span></span><span class="swatch-name">' + t.name + '</span>';
+      btn.addEventListener('click', function () {
+        applyTheme(t.id);
+        save();
+        populateThemeGrid(grid);
+      });
+      grid.appendChild(btn);
+    });
+  }
+
   function applyTheme(name) {
     if (!name) name = 'default';
     document.documentElement.setAttribute('data-theme', name === 'default' ? '' : name);
@@ -1072,12 +1103,35 @@
     setupStart.addEventListener('click', startFromSetup);
     setupCancel.addEventListener('click', function () { setupDialog.close(); });
 
+    var btnMenu = document.getElementById('btn-menu');
+    var menuDialog = document.getElementById('menu-dialog');
+    var menuClose = document.getElementById('menu-close');
+    var menuFlip = document.getElementById('menu-flip');
+    var themeGrid = document.getElementById('theme-grid');
+    if (btnMenu && menuDialog) {
+      btnMenu.addEventListener('click', function () {
+        if (menuFlip) menuFlip.checked = G.autoFlip;
+        populateThemeGrid(themeGrid);
+        menuDialog.showModal();
+      });
+    }
+    if (menuClose && menuDialog) menuClose.addEventListener('click', function () { menuDialog.close(); });
+
     chkFlip.checked = G.autoFlip;
     chkFlip.addEventListener('change', function () {
       G.autoFlip = chkFlip.checked;
+      if (menuFlip) menuFlip.checked = G.autoFlip;
       if (G.autoFlip && !G.over) setOrientation(G.state.turn, true);
       save();
     });
+    if (menuFlip) {
+      menuFlip.addEventListener('change', function () {
+        G.autoFlip = menuFlip.checked;
+        chkFlip.checked = G.autoFlip;
+        if (G.autoFlip && !G.over) setOrientation(G.state.turn, true);
+        save();
+      });
+    }
 
     var selTheme = document.getElementById('sel-theme');
     if (selTheme) {

@@ -706,3 +706,59 @@ html[data-theme="emerald"] {
   --text: #e6f5ef; --muted: #9bbdad; --accent: #34d399; --accent-ink: #0d1f1a;
   --danger: #f87171; --sq-light: #e8d8a8; --sq-dark: #4f7f6a; --frame: #1d3d33;
 }
+
+/* tema seçici (menü) */
+.theme-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+  margin-top: 0.4rem;
+}
+.theme-swatch {
+  appearance: none;
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-align: left;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+.theme-swatch:hover { border-color: var(--accent); }
+.theme-swatch.active { border-color: var(--accent); background: #3f3122; }
+.theme-swatch .swatch-preview {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 34px;
+  height: 34px;
+  border-radius: 6px;
+  overflow: hidden;
+  flex: none;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.theme-swatch .swatch-preview span { display: block; }
+.theme-swatch .swatch-name {
+  font-size: 0.8rem;
+  color: var(--text);
+  font-weight: 600;
+}
+.menu-section { margin-bottom: 0.9rem; }
+.menu-section h3 {
+  margin: 0 0 0.4rem;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.13em;
+  color: var(--muted);
+  font-family: var(--font-display);
+}
+.menu-dialog { width: min(92vw, 420px); }
+.btn-menu { flex: 0 0 auto; white-space: nowrap; align-self: center; }
+.masthead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
