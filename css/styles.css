@@ -431,8 +431,7 @@ button { font: inherit; }
 .btn:disabled { opacity: 0.45; cursor: default; }
 .btn.primary {
   background: var(--accent);
-  border-color: var(--accent);
-  border-width: 2px;
+  border: none;
   color: var(--accent-ink);
 }
 .btn.primary:hover:not(:disabled) { background: #e4b155; }
@@ -851,8 +850,7 @@ html[data-theme="emerald"] {
 .btn-xl {
   padding: 0.85rem 1.2rem;
   font-size: 1.05rem;
-  border-width: 2px;
-  border-color: var(--accent);
+  border: none;
 }
 .hero-themes {
   display: flex;
