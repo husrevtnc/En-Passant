@@ -402,6 +402,9 @@
     renderBoard();
     updateSidebar();
     updateClockDisplay();
+    // ana menüde devam et butonu görünürlüğü
+    var hr = document.getElementById('hero-resume');
+    if (hr) hr.style.display = (G.moves && G.moves.length > 0 && !G.over) ? '' : 'none';
   }
 
   function updateSidebar() {
@@ -1321,6 +1324,23 @@
     var heroPlay = document.getElementById('hero-play');
     var heroSettings = document.getElementById('hero-settings');
     var btnHome = document.getElementById('btn-home');
+    var wordmarkGame = document.getElementById('wordmark-game');
+    if (wordmarkGame) {
+      wordmarkGame.addEventListener('click', function () {
+        var vm = document.getElementById('view-menu');
+        var vg = document.getElementById('view-game');
+        if (vg) vg.classList.add('hidden');
+        if (vm) vm.classList.remove('hidden');
+      });
+      wordmarkGame.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); wordmarkGame.click(); } });
+    }
+    var heroResume = document.getElementById('hero-resume');
+    if (heroResume) heroResume.addEventListener('click', function () {
+      var vm = document.getElementById('view-menu');
+      var vg = document.getElementById('view-game');
+      if (vm) vm.classList.add('hidden');
+      if (vg) vg.classList.remove('hidden');
+    });
     if (heroPlay) heroPlay.addEventListener('click', function () {
       var vm = document.getElementById('view-menu');
       var vg = document.getElementById('view-game');

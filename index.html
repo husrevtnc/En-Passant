@@ -20,7 +20,8 @@
       <h1 class="hero-title">En Passant</h1>
       <p class="hero-tag">Aynı ekranda iki kişilik satranç</p>
       <div class="hero-actions">
-        <button id="hero-play" class="btn btn-xl primary" type="button">Oyuna Başla</button>
+        <button id="hero-resume" class="btn btn-xl primary" type="button">Oyuna Devam Et</button>
+        <button id="hero-play" class="btn btn-xl" type="button">Yeni Oyun</button>
         <button id="hero-settings" class="btn btn-xl" type="button">Ayarlar</button>
       </div>
     </div>
@@ -30,7 +31,7 @@
   <div id="view-game" class="view view-game hidden">
     <div class="layout">
     <header class="masthead">
-      <p class="wordmark">
+      <p class="wordmark" id="wordmark-game" role="button" tabindex="0" aria-label="Ana menü">
         <img class="mark" src="assets/pieces/wn.svg" alt="" aria-hidden="true">
         <span class="name">En Passant</span>
       </p>
