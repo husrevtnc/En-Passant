@@ -1302,6 +1302,16 @@
     }
     if (themeClose && themeDialog) themeClose.addEventListener('click', function () { themeDialog.close(); });
 
+    setupStart.addEventListener('click', startFromSetup);
+    setupCancel.addEventListener('click', function () {
+      setupDialog.close();
+      // Vazgeç -> ana menüye dön
+      var vm = document.getElementById('view-menu');
+      var vg = document.getElementById('view-game');
+      if (vg) vg.classList.add('hidden');
+      if (vm) vm.classList.remove('hidden');
+    });
+
     /* ana menü */
     var heroPlay = document.getElementById('hero-play');
     var heroSettings = document.getElementById('hero-settings');
