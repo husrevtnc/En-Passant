@@ -173,10 +173,10 @@ button { font: inherit; }
   height: 86%;
   z-index: 2;
   pointer-events: none;
-  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.28));
+  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.28)) drop-shadow(0 0 3px var(--accent));
 }
 .square img[src*="/b"] {
-  filter: drop-shadow(0 0 1.5px rgba(255, 255, 255, 0.55)) drop-shadow(0 2px 2px rgba(0, 0, 0, 0.35));
+  filter: drop-shadow(0 0 1px rgba(255, 255, 255, 0.5)) drop-shadow(0 0 4px var(--accent)) drop-shadow(0 2px 2px rgba(0, 0, 0, 0.35));
 }
 
 /* vurgu katmanları */
@@ -224,7 +224,7 @@ button { font: inherit; }
   width: 72px;
   height: 72px;
   transform: translate(-50%, -50%);
-  filter: drop-shadow(0 10px 16px rgba(0, 0, 0, 0.45));
+  filter: drop-shadow(0 0 4px var(--accent)) drop-shadow(0 10px 16px rgba(0, 0, 0, 0.45));
   opacity: 0.95;
 }
 
