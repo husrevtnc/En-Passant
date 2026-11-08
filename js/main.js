@@ -1073,15 +1073,7 @@
       btn.dataset.theme = t.id;
       btn.setAttribute('aria-label', t.name);
       // 4x4 mini board preview in theme colors + a knight piece
-      var cells = '';
-      for (var i = 0; i < 16; i++) {
-        var light = ((Math.floor(i / 4) + (i % 4)) % 2 === 0);
-        cells += '<span class="sq ' + (light ? 'sqL' : 'sqD') + '" style="background:' + (light ? t.sqL : t.sqD) + '"></span>';
-      }
-      btn.innerHTML = '<span class="swatch-preview" style="background:' + t.bg + '">' +
-        '<span class="mini-board">' + cells + '</span>' +
-        '<img class="swatch-piece" src="assets/pieces/bn.svg" alt="">' +
-        '</span><span class="swatch-name">' + t.name + '</span>';
+      btn.innerHTML = '<span class="swatch-preview theme-img-preview"><img src="assets/themes/' + t.id + '.svg" alt="' + t.name + '"></span><span class="swatch-name">' + t.name + '</span>';
       btn.addEventListener('click', function () {
         applyTheme(t.id);
         save();

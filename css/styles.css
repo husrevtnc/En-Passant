@@ -874,3 +874,10 @@ html[data-theme="emerald"] {
   justify-content: space-between;
   gap: 1rem;
 }
+
+.theme-swatch .swatch-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
