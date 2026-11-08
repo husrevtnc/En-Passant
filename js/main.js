@@ -1073,7 +1073,13 @@
       btn.className = 'theme-swatch' + (t.id === (G.theme || 'default') ? ' active' : '');
       btn.dataset.theme = t.id;
       btn.setAttribute('aria-label', t.name);
-      btn.innerHTML = '<span class="swatch-preview" style="background:' + t.bg + '"><span style="background:' + t.sqL + '"></span><span style="background:' + t.sqD + '"></span></span><span class="swatch-name">' + t.name + '</span>';
+      btn.innerHTML = '<span class="swatch-preview" style="background:' + t.bg + '">' +
+        '<span class="sq" style="background:' + t.sqL + '"></span>' +
+        '<span class="sq" style="background:' + t.sqD + '"></span>' +
+        '<span class="sq" style="background:' + t.sqD + '"></span>' +
+        '<span class="sq" style="background:' + t.sqL + '"></span>' +
+        '<span class="swatch-piece">♞</span>' +
+        '</span><span class="swatch-name">' + t.name + '</span>';
       btn.addEventListener('click', function () {
         applyTheme(t.id);
         save();
@@ -1150,20 +1156,32 @@
     if (btnMenu && menuDialog) {
       btnMenu.addEventListener('click', function () {
         if (menuFlip) menuFlip.checked = G.autoFlip;
-        populateThemeGrid(themeGrid);
         menuDialog.showModal();
       });
     }
     if (menuClose && menuDialog) menuClose.addEventListener('click', function () { menuDialog.close(); });
 
+    var btnOpenThemes = document.getElementById('btn-open-themes');
+    var themeDialog = document.getElementById('theme-dialog');
+    var themeClose = document.getElementById('theme-close');
+    if (btnOpenThemes && themeDialog) {
+      btnOpenThemes.addEventListener('click', function () {
+        var tg = document.getElementById('theme-grid');
+        if (tg) populateThemeGrid(tg);
+        themeDialog.showModal();
+      });
+    }
+    if (themeClose && themeDialog) themeClose.addEventListener('click', function () { themeDialog.close(); });
+
     /* ana menü */
     var heroPlay = document.getElementById('hero-play');
     var heroSettings = document.getElementById('hero-settings');
     var btnHome = document.getElementById('btn-home');
-    var heroThemes = document.getElementById('hero-themes');
-    if (heroThemes) populateHeroThemes(heroThemes);
     if (heroPlay) heroPlay.addEventListener('click', function () {
-      showGame();
+      var vm = document.getElementById('view-menu');
+      var vg = document.getElementById('view-game');
+      if (vm) vm.classList.add('hidden');
+      if (vg) vg.classList.remove('hidden');
       openSetup();
     });
     if (heroSettings) heroSettings.addEventListener('click', function () {
@@ -1172,7 +1190,10 @@
       if (menuDialog) menuDialog.showModal();
     });
     if (btnHome) btnHome.addEventListener('click', function () {
-      showMenu();
+      var vm = document.getElementById('view-menu');
+      var vg = document.getElementById('view-game');
+      if (vg) vg.classList.add('hidden');
+      if (vm) vm.classList.remove('hidden');
     });
 
     chkFlip.checked = G.autoFlip;
@@ -1299,7 +1320,6 @@
     G.moves = [];
     G.lastMove = null;
     rebuildReps();
-    setTimeout(openSetup, 300);
   } else {
     chkFlip.checked = G.autoFlip;
     var vm = document.getElementById('view-menu');

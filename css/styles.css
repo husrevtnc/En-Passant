@@ -730,8 +730,10 @@ html[data-theme="emerald"] {
 .theme-swatch:hover { border-color: var(--accent); }
 .theme-swatch.active { border-color: var(--accent); background: #3f3122; }
 .theme-swatch .swatch-preview {
+  position: relative;
   display: grid;
   grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
   width: 34px;
   height: 34px;
   border-radius: 6px;
@@ -739,7 +741,18 @@ html[data-theme="emerald"] {
   flex: none;
   border: 1px solid rgba(255,255,255,0.08);
 }
-.theme-swatch .swatch-preview span { display: block; }
+.theme-swatch .swatch-preview .sq { display: block; }
+.theme-swatch .swatch-preview .swatch-piece {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  color: #1a1a1a;
+  text-shadow: 0 1px 0 rgba(255,255,255,0.2);
+  pointer-events: none;
+}
 .theme-swatch .swatch-name {
   font-size: 0.8rem;
   color: var(--text);
