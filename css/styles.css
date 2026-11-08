@@ -423,7 +423,7 @@ button { font: inherit; }
 .btn:disabled { opacity: 0.45; cursor: default; }
 .btn.primary {
   background: var(--accent);
-  border-color: var(--accent-ink);
+  border-color: var(--accent);
   border-width: 2px;
   color: var(--accent-ink);
 }
@@ -844,7 +844,7 @@ html[data-theme="emerald"] {
   padding: 0.85rem 1.2rem;
   font-size: 1.05rem;
   border-width: 2px;
-  border-color: var(--line);
+  border-color: var(--accent);
 }
 .hero-themes {
   display: flex;
