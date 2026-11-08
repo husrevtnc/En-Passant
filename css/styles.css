@@ -881,3 +881,42 @@ html[data-theme="emerald"] {
   object-fit: cover;
   display: block;
 }
+
+/* görünüm: tahta ve panel ekrana sığdır (kaydırma olmadan) */
+.view-game {
+  height: 100dvh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.view-game .masthead { flex: 0 0 auto; }
+.view-game .layout {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+  padding: 0.5rem clamp(1rem, 3vw, 2rem) 0.5rem;
+}
+.view-game .board-col {
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.view-game .board-frame { max-height: 100%; }
+.view-game .board {
+  width: min(86vw, calc(100dvh - 110px), 640px);
+  max-height: calc(100dvh - 110px);
+}
+.view-game .panel {
+  overflow-y: auto;
+  max-height: 100%;
+  scrollbar-width: thin;
+}
+.view-game .btn-row { margin-bottom: 0.35rem; }
+.view-game .card { padding: 0.6rem 0.8rem; }
+.view-game .move-list { max-height: 150px; }
+
+@media (max-width: 940px) {
+  .view-game { height: auto; overflow: auto; }
+  .view-game .layout { overflow: visible; }
+}
