@@ -44,6 +44,131 @@
   var confirmResolver = null;
 
   /* ---------- oyun durumu ---------- */
+  var I18N = {
+    tr: { title:'En Passant · Satranç', heroTag:'Aynı ekranda iki kişilik satranç', play:'Oyuna Başla', settings:'Ayarlar', statusTitle:'Durum', movesTitle:'Hamleler', capturedTitle:'Alınan taşlar', controlsTitle:'Denetimler', newGame:'Yeni Oyun', undo:'Geri Al', redo:'İleri Al', rotate:'Tahtayı Çevir', home:'Ana Menü', menu:'Menü', menuTitle:'Menü & Ayarlar', lang:'Dil', theme:'Tema', autoFlip:'Otomatik tahta çevirme', openThemes:'Temaları Aç', close:'Kapat', cancel:'Vazgeç', start:'Başla', confirmTitle:'Yeni oyun?', confirmMsg:'Devam eden oyun silinecek. Yeni oyun başlatılsın mı?', setupTitle:'Yeni oyun kurulumu', setupMsg:'Oyun başlamadan önce süreyi belirleyin (dakika:saniye). Örn. 5:00 veya 5. Artım saniye cinsinden.', setupHint:'Süre 0 → süre kontrolü kapalı (süresiz).', capturedW:"Beyaz'ın aldıkları", capturedB:"Siyah'ın aldıkları", noMoves:'Henüz hamle yok.', musicTitle:'Müzik (YouTube)', ytLoad:'Yükle', ytPlay:'▶ Oynat', ytPause:'❚❚ Duraklat', vol:'Ses', ytStatus:'Link yok.', turnPrefix:'Sıra: ', statusStart:'Beyaz başlar. Taş seçmek için tıkla.', sideW:'Beyaz', sideB:'Siyah', statusCheck:'Şah! {side} kurtulmalı.', statusNormal:'Normal oyun sürüyor.', mateMsg:'Mat! {side} kazandı.', drawMsg:'Oyun berabere bitti.', checkMsg:'Şah!', gameoverMsg:'Oyun bitti — Yeni Oyun ile başlayın.', newGameMsg:'Yeni oyun başladı. Beyaz oynar.', undoMsg:'Hamle geri alındı.', redoMsg:'Hamle ileri alındı.', timeoutMsg:'Süre doldu! {side} kazandı.' },
+    en: { title:'En Passant · Chess', heroTag:'Two-player chess on one screen', play:'Play', settings:'Settings', statusTitle:'Status', movesTitle:'Moves', capturedTitle:'Captures', controlsTitle:'Controls', newGame:'New Game', undo:'Undo', redo:'Redo', rotate:'Flip Board', home:'Home', menu:'Menu', menuTitle:'Menu & Settings', lang:'Language', theme:'Theme', autoFlip:'Auto-flip board', openThemes:'Open Themes', close:'Close', cancel:'Cancel', start:'Start', confirmTitle:'New game?', confirmMsg:'The current game will be lost. Start a new game?', setupTitle:'New game setup', setupMsg:'Set time before the game starts (min:sec). E.g. 5:00 or 5. Increment in seconds.', setupHint:'Time 0 → no clock (untimed).', capturedW:"White's captures", capturedB:"Black's captures", noMoves:'No moves yet.', musicTitle:'Music (YouTube)', ytLoad:'Load', ytPlay:'▶ Play', ytPause:'❚❚ Pause', vol:'Vol', ytStatus:'No link.', turnPrefix:'Turn: ', statusStart:'White to move. Click a piece.', sideW:'White', sideB:'Black', statusCheck:'Check! {side} must escape.', statusNormal:'Game in progress.', mateMsg:'Checkmate! {side} wins.', drawMsg:'Game drawn.', checkMsg:'Check!', gameoverMsg:'Game over — start a new game.', newGameMsg:'New game. White to move.', undoMsg:'Move undone.', redoMsg:'Move redone.', timeoutMsg:'Time up! {side} wins.' },
+    de: { title:'En Passant · Schach', heroTag:'Schach zu zweit auf einem Bildschirm', play:'Spielen', settings:'Einstellungen', newGame:'Neues Spiel', undo:'Zurück', redo:'Vorwärts', rotate:'Brett drehen', home:'Start', menu:'Menü', menuTitle:'Menü & Einstellungen', lang:'Sprache', theme:'Thema', autoFlip:'Brett automatisch drehen', openThemes:'Themen öffnen', close:'Schließen', cancel:'Abbrechen', start:'Start', confirmTitle:'Neues Spiel?', confirmMsg:'Das laufende Spiel geht verloren. Neues Spiel starten?', setupTitle:'Neues Spiel einrichten', setupMsg:'Zeit vor dem Spiel einstellen (Min:Sek). Z.B. 5:00 oder 5. Inkrement in Sekunden.', setupHint:'Zeit 0 → unbegrenzt (keine Uhr).', capturedW:'Weiß hat geschlagen', capturedB:'Schwarz hat geschlagen', musicTitle:'Musik (YouTube)', ytLoad:'Laden', ytPlay:'▶ Abspielen', ytPause:'❚❚ Pause', vol:'Lautst.', ytStatus:'Kein Link.', turnPrefix:'Am Zug: ', statusStart:'Weiß am Zug. Figur wählen.', statusCheck:'Schach! {side} muss entkommen.', statusNormal:'Spiel läuft.', mateMsg:'Schachmatt! {side} gewinnt.', drawMsg:'Remis.', checkMsg:'Schach!', gameoverMsg:'Spiel beendet — neues Spiel starten.', newGameMsg:'Neues Spiel. Weiß am Zug.', undoMsg:'Zug zurückgenommen.', redoMsg:'Zug wiederholt.', timeoutMsg:'Zeit abgelaufen! {side} gewinnt.' },
+    es: { title:'En Passant · Ajedrez', heroTag:'Ajedrez para dos en una pantalla', play:'Jugar', settings:'Ajustes', newGame:'Nueva partida', undo:'Deshacer', redo:'Rehacer', rotate:'Girar tablero', home:'Inicio', menu:'Menú', menuTitle:'Menú y ajustes', lang:'Idioma', theme:'Tema', autoFlip:'Girar tablero automático', openThemes:'Abrir temas', close:'Cerrar', cancel:'Cancelar', start:'Empezar', confirmTitle:'¿Nueva partida?', confirmMsg:'Se perderá la partida actual. ¿Empezar nueva?', setupTitle:'Configurar nueva partida', setupMsg:'Define el tiempo antes de empezar (min:seg). Ej. 5:00 o 5. Incremento en segundos.', setupHint:'Tiempo 0 → sin reloj.', capturedW:'Capturas de blancas', capturedB:'Capturas de negras', musicTitle:'Música (YouTube)', ytLoad:'Cargar', ytPlay:'▶ Reproducir', ytPause:'❚❚ Pausa', vol:'Vol', ytStatus:'Sin enlace.', turnPrefix:'Turno: ', statusStart:'Juegan blancas. Elige pieza.', statusCheck:'¡Jaque! {side} debe escapar.', statusNormal:'Partida en curso.', mateMsg:'¡Jaque mate! Ganan {side}.', drawMsg:'Tablas.', checkMsg:'¡Jaque!', gameoverMsg:'Partida terminada — nueva partida.', newGameMsg:'Nueva partida. Juegan blancas.', undoMsg:'Jugada deshecha.', redoMsg:'Jugada rehecha.', timeoutMsg:'¡Tiempo! Ganan {side}.' },
+    fr: { title:'En Passant · Échecs', heroTag:"Échecs à deux sur un écran", play:'Jouer', settings:'Réglages', newGame:'Nouvelle partie', undo:'Annuler', redo:'Rétablir', rotate:'Tourner l’échiquier', home:'Accueil', menu:'Menu', menuTitle:'Menu et réglages', lang:'Langue', theme:'Thème', autoFlip:'Retourner automatiquement', openThemes:'Ouvrir les thèmes', close:'Fermer', cancel:'Annuler', start:'Démarrer', confirmTitle:'Nouvelle partie ?', confirmMsg:'La partie en cours sera perdue. Commencer ?', setupTitle:'Configuration', setupMsg:'Définir le temps avant le début (min:sec). Ex. 5:00 ou 5. Incrément en secondes.', setupHint:'Temps 0 → sans horloge.', capturedW:'Prises des blancs', capturedB:'Prises des noirs', musicTitle:'Musique (YouTube)', ytLoad:'Charger', ytPlay:'▶ Lire', ytPause:'❚❚ Pause', vol:'Vol', ytStatus:'Pas de lien.', turnPrefix:'Trait aux ', statusStart:'Les blancs jouent. Cliquez une pièce.', statusCheck:'Échec ! {side} doit fuir.', statusNormal:'Partie en cours.', mateMsg:'Échec et mat ! {side} gagne.', drawMsg:'Nulle.', checkMsg:'Échec !', gameoverMsg:'Partie terminée — nouvelle partie.', newGameMsg:'Nouvelle partie. Les blancs jouent.', undoMsg:'Coup annulé.', redoMsg:'Coup rétabli.', timeoutMsg:'Temps écoulé ! {side} gagne.' },
+    it: { title:'En Passant · Scacchi', heroTag:'Scacchi per due su uno schermo', play:'Gioca', settings:'Impostazioni', newGame:'Nuova partita', undo:'Annulla', redo:'Ripeti', rotate:'Ruota scacchiera', home:'Home', menu:'Menu', menuTitle:'Menu e impostazioni', lang:'Lingua', theme:'Tema', autoFlip:'Capovolgi automaticamente', openThemes:'Apri temi', close:'Chiudi', cancel:'Annulla', start:'Inizia', confirmTitle:'Nuova partita?', confirmMsg:'La partita in corso sarà persa. Iniziare?', setupTitle:'Nuova partita', setupMsg:'Imposta il tempo prima di iniziare (min:sec). Es. 5:00 o 5. Incremento in secondi.', setupHint:'Tempo 0 → senza orologio.', capturedW:'Pezzi presi dal bianco', capturedB:'Pezzi presi dal nero', musicTitle:'Musica (YouTube)', ytLoad:'Carica', ytPlay:'▶ Riproduci', ytPause:'❚❚ Pausa', vol:'Vol', ytStatus:'Nessun link.', turnPrefix:'Tocca a: ', statusStart:'Tocca al bianco. Clicca un pezzo.', statusCheck:'Scacco! {side} deve fuggire.', statusNormal:'Partita in corso.', mateMsg:'Scacco matto! Vince {side}.', drawMsg:'Patta.', checkMsg:'Scacco!', gameoverMsg:'Partita finita — nuova partita.', newGameMsg:'Nuova partita. Tocca al bianco.', undoMsg:'Mossa annullata.', redoMsg:'Mossa ripristinata.', timeoutMsg:'Tempo scaduto! Vince {side}.' },
+    pt: { title:'En Passant · Xadrez', heroTag:'Xadrez para dois numa tela', play:'Jogar', settings:'Definições', newGame:'Nova partida', undo:'Desfazer', redo:'Refazer', rotate:'Girar tabuleiro', home:'Início', menu:'Menu', menuTitle:'Menu e definições', lang:'Idioma', theme:'Tema', autoFlip:'Girar automaticamente', openThemes:'Abrir temas', close:'Fechar', cancel:'Cancelar', start:'Iniciar', confirmTitle:'Nova partida?', confirmMsg:'A partida atual será perdida. Começar?', setupTitle:'Nova partida', setupMsg:'Defina o tempo antes de começar (min:sec). Ex. 5:00 ou 5. Incremento em segundos.', setupHint:'Tempo 0 → sem relógio.', capturedW:'Capturas das brancas', capturedB:'Capturas das pretas', musicTitle:'Música (YouTube)', ytLoad:'Carregar', ytPlay:'▶ Tocar', ytPause:'❚❚ Pausa', vol:'Vol', ytStatus:'Sem link.', turnPrefix:'Vez: ', statusStart:'Vez das brancas. Clique uma peça.', statusCheck:'Xeque! {side} deve escapar.', statusNormal:'Partida em curso.', mateMsg:'Xeque-mate! {side} vence.', drawMsg:'Empate.', checkMsg:'Xeque!', gameoverMsg:'Partida terminada — nova partida.', newGameMsg:'Nova partida. Vez das brancas.', undoMsg:'Jogada desfeita.', redoMsg:'Jogada refeita.', timeoutMsg:'Tempo esgotado! {side} vence.' },
+    ru: { title:'En Passant · Шахматы', heroTag:'Шахматы для двоих на одном экране', play:'Играть', settings:'Настройки', newGame:'Новая игра', undo:'Отменить', redo:'Вернуть', rotate:'Повернуть доску', home:'Главная', menu:'Меню', menuTitle:'Меню и настройки', lang:'Язык', theme:'Тема', autoFlip:'Авто-поворот доски', openThemes:'Открыть темы', close:'Закрыть', cancel:'Отмена', start:'Начать', confirmTitle:'Новая игра?', confirmMsg:'Текущая игра будет потеряна. Начать новую?', setupTitle:'Настройка новой игры', setupMsg:'Установите время до начала (мин:сек). Например, 5:00 или 5. Добавка в секундах.', setupHint:'Время 0 → без контроля времени.', capturedW:'Взятые белыми', capturedB:'Взятые чёрными', musicTitle:'Музыка (YouTube)', ytLoad:'Загрузить', ytPlay:'▶ Играть', ytPause:'❚❚ Пауза', vol:'Громк.', ytStatus:'Нет ссылки.', turnPrefix:'Ход: ', statusStart:'Ход белых. Выберите фигуру.', statusCheck:'Шах! {side} должен уйти.', statusNormal:'Игра идёт.', mateMsg:'Мат! Победа {side}.', drawMsg:'Ничья.', checkMsg:'Шах!', gameoverMsg:'Игра окончена — новая игра.', newGameMsg:'Новая игра. Ход белых.', undoMsg:'Ход отменён.', redoMsg:'Ход возвращён.', timeoutMsg:'Время вышло! Победа {side}.' },
+    ja: { title:'En Passant · チェス', heroTag:'1画面で2人プレイのチェス', play:'プレイ', settings:'設定', newGame:'新しいゲーム', undo:'やり直し', redo:'進める', rotate:'盤を回転', home:'ホーム', menu:'メニュー', menuTitle:'メニューと設定', lang:'言語', theme:'テーマ', autoFlip:'盤の自動回転', openThemes:'テーマを開く', close:'閉じる', cancel:'キャンセル', start:'開始', confirmTitle:'新しいゲーム？', confirmMsg:'現在のゲームは失われます。始めますか？', setupTitle:'ゲーム設定', setupMsg:'開始前に時間を設定（分:秒）。例 5:00 または 5。増分は秒。', setupHint:'時間 0 → 時間制限なし。', capturedW:'白の取り駒', capturedB:'黒の取り駒', musicTitle:'音楽 (YouTube)', ytLoad:'読み込む', ytPlay:'▶ 再生', ytPause:'❚❚ 一時停止', vol:'音量', ytStatus:'リンクなし。', turnPrefix:'手番: ', statusStart:'白の手番。駒を選んでください。', statusCheck:'チェック！ {side} は逃げる必要があります。', statusNormal:'対局中。', mateMsg:'チェックメイト！ {side} の勝ち。', drawMsg:'引き分け。', checkMsg:'チェック！', gameoverMsg:'対局終了 — 新しいゲーム。', newGameMsg:'新しいゲーム。白の手番。', undoMsg:'手を戻しました。', redoMsg:'手を進めました。', timeoutMsg:'時間切れ！ {side} の勝ち。' },
+    zh: { title:'En Passant · 国际象棋', heroTag:'同一屏幕上双人象棋', play:'开始游戏', settings:'设置', newGame:'新游戏', undo:'悔棋', redo:'重做', rotate:'旋转棋盘', home:'主页', menu:'菜单', menuTitle:'菜单与设置', lang:'语言', theme:'主题', autoFlip:'自动翻转棋盘', openThemes:'打开主题', close:'关闭', cancel:'取消', start:'开始', confirmTitle:'新游戏？', confirmMsg:'当前游戏将丢失。开始新游戏吗？', setupTitle:'新游戏设置', setupMsg:'开始前设置时间（分:秒）。例 5:00 或 5。增量为秒。', setupHint:'时间 0 → 无计时。', capturedW:'白方吃子', capturedB:'黑方吃子', musicTitle:'音乐 (YouTube)', ytLoad:'加载', ytPlay:'▶ 播放', ytPause:'❚❚ 暂停', vol:'音量', ytStatus:'无链接。', turnPrefix:'轮到: ', statusStart:'白方先行。点击棋子。', statusCheck:'将军！{side} 必须逃脱。', statusNormal:'对局中。', mateMsg:'将杀！{side} 获胜。', drawMsg:'和棋。', checkMsg:'将军！', gameoverMsg:'对局结束 — 新游戏。', newGameMsg:'新游戏。白方先行。', undoMsg:'已悔棋。', redoMsg:'已重做。', timeoutMsg:'时间到！{side} 获胜。' },
+    ar: { title:'En Passant · شطرنج', heroTag:'شطرنج للاعبين على شاشة واحدة', play:' العب', settings:'الإعدادات', newGame:'لعبة جديدة', undo:'تراجع', redo:'إعادة', rotate:'تدوير اللوحة', home:'الرئيسية', menu:'القائمة', menuTitle:'القائمة والإعدادات', lang:'اللغة', theme:'السمة', autoFlip:'قلب اللوحة تلقائياً', openThemes:'فتح السمات', close:'إغلاق', cancel:'إلغاء', start:'ابدأ', confirmTitle:'لعبة جديدة؟', confirmMsg:'سيتم فقدان اللعبة الحالية. البدء؟', setupTitle:'إعداد لعبة جديدة', setupMsg:'حدد الوقت قبل البدء (د:ث). مثلاً 5:00 أو 5. الزيادة بالثواني.', setupHint:'وقت 0 → بدون ساعة.', capturedW:'أخذ الأبيض', capturedB:'أخذ الأسود', musicTitle:'موسيقى (YouTube)', ytLoad:'تحميل', ytPlay:'▶ تشغيل', ytPause:'❚❚ إيقاف', vol:'صوت', ytStatus:'لا يوجد رابط.', turnPrefix:'دور: ', statusStart:'دور الأبيض. انقر على قطعة.', statusCheck:'كش! {side} يجب أن يهرب.', statusNormal:'اللعبة جارية.', mateMsg:'كش مات! فوز {side}.', drawMsg:'تعادل.', checkMsg:'كش!', gameoverMsg:'انتهت اللعبة — игра جديدة.', newGameMsg:'لعبة جديدة. دور الأبيض.', undoMsg:'تم التراجع.', redoMsg:'تمت الإعادة.', timeoutMsg:'انتهى الوقت! فوز {side}.' },
+    ko: { title:'En Passant · 체스', heroTag:'한 화면에서 두 명이 체스', play:'게임 시작', settings:'설정', newGame:'새 게임', undo:'실행 취소', redo:'다시 실행', rotate:'보드 회전', home:'홈', menu:'메뉴', menuTitle:'메뉴 및 설정', lang:'언어', theme:'테마', autoFlip:'보드 자동 회전', openThemes:'테마 열기', close:'닫기', cancel:'취소', start:'시작', confirmTitle:'새 게임?', confirmMsg:'현재 게임이 사라집니다. 시작할까요?', setupTitle:'새 게임 설정', setupMsg:'시작 전 시간 설정 (분:초). 예 5:00 또는 5. 증가는 초.', setupHint:'시간 0 → 시간 제한 없음.', capturedW:'백이 잡은 말', capturedB:'흑이 잡은 말', musicTitle:'음악 (YouTube)', ytLoad:'불러오기', ytPlay:'▶ 재생', ytPause:'❚❚ 일시정지', vol:'볼륨', ytStatus:'링크 없음.', turnPrefix:'차례: ', statusStart:'백의 차례. 말을 선택하세요.', statusCheck:'체크! {side}는 탈출해야 합니다.', statusNormal:'게임 진행 중.', mateMsg:'체크메이트! {side} 승.', drawMsg:'무승부.', checkMsg:'체크!', gameoverMsg:'게임 종료 — 새 게임.', newGameMsg:'새 게임. 백의 차례.', undoMsg:'무르기 완료.', redoMsg:'다시 실행 완료.', timeoutMsg:'시간 초과! {side} 승.' }
+  };
+
+  var G = {
+    lang: 'tr',
+    state: E.initial(),
+    hist: [],
+    moves: [],
+    lastMove: null,
+    selected: null,
+    selMoves: [],
+    over: null,
+    check: false,
+    reps: {},
+    orientation: null,
+    autoFlip: true,
+    redo: [],
+    clock: null,
+    clockConfig: { w: 300000, b: 300000, inc: 0 },
+    theme: 'default'
+  };
+
+  var TR_SIDE = { w: 'Beyaz', b: 'Siyah' };
+  var TR_PIECE = { p: 'piyon', n: 'at', b: 'fil', r: 'kale', q: 'vezir', k: 'şah' };
+
+  function t(key, vars) {
+    var dict = I18N[G.lang] || I18N.en || I18N.tr;
+    var s = (dict[key] != null) ? dict[key] : ((I18N.en && I18N.en[key] != null) ? I18N.en[key] : ((I18N.tr[key] != null) ? I18N.tr[key] : key));
+    if (vars) {
+      for (var k in vars) s = s.split('{' + k + '}').join(vars[k]);
+    }
+    return s;
+  }
+
+  function applyLanguage(code) {
+    if (!I18N[code]) code = 'en';
+    G.lang = code;
+    try { localStorage.setItem('en-passant:lang', code); } catch (e) {}
+    var d = I18N[code] || I18N.en;
+    document.documentElement.lang = (code === 'ar') ? 'ar' : code;
+    document.title = t('title');
+    // hero
+    setTxt('hero-tag', t('heroTag'));
+    setTxt('hero-play', t('play'));
+    setTxt('hero-settings', t('settings'));
+    // game
+    setTxt('turn-text', t('turnPrefix') + TR_SIDE[G.state.turn]);
+    // status-note handled in updateSidebar
+    // captured
+    // captured labels: preserve diff span
+    ['w','b'].forEach(function (side) {
+      var p = document.getElementById('cap-label-' + side);
+      if (!p) return;
+      var span = p.querySelector('.mat-diff');
+      p.textContent = (side === 'w' ? t('capturedW') : t('capturedB')) + ' ';
+      if (span) p.appendChild(span);
+    });
+    // music
+    setTxt('card-status', t('statusTitle'));
+    setTxt('card-moves', t('movesTitle'));
+    setTxt('card-captured', t('capturedTitle'));
+    setTxt('card-music', t('musicTitle'));
+    setTxt('card-controls', t('controlsTitle'));
+    setTxt('btn-yt-load', t('ytLoad'));
+    setTxt('btn-yt-play', t('ytPlay'));
+    setTxt('btn-yt-pause', t('ytPause'));
+    var volLabel = document.querySelector('.vol-label');
+    if (volLabel) volLabel.firstChild.nodeValue = t('vol') + ' ';
+    var ys = document.getElementById('yt-status');
+    if (ys && ys.textContent === 'Link yok.') ys.textContent = t('ytStatus');
+    // controls
+    setTxt('btn-new', t('newGame'));
+    setTxt('btn-undo', t('undo'));
+    setTxt('btn-redo', t('redo'));
+    setTxt('btn-rotate', t('rotate'));
+    setTxt('btn-home', t('home'));
+    setTxt('btn-menu', t('menu'));
+    // dialogs
+    setTxt('menu-title', t('menuTitle'));
+    setTxt('confirm-title', t('confirmTitle'));
+    setTxt('confirm-msg', t('confirmMsg'));
+    setTxt('confirm-no', t('cancel'));
+    setTxt('confirm-yes', t('newGame'));
+    setTxt('setup-title', t('setupTitle'));
+    setTxt('setup-msg', t('setupMsg'));
+    setTxt('setup-hint', t('setupHint'));
+    setTxt('setup-cancel', t('cancel'));
+    setTxt('setup-start', t('start'));
+    setTxt('menu-close', t('close'));
+    setTxt('theme-close', t('close'));
+    var openThemes = document.getElementById('btn-open-themes');
+    if (openThemes) openThemes.textContent = t('openThemes');
+    // menu auto-flip label text node
+    var mf = document.getElementById('menu-flip');
+    if (mf && mf.parentNode) {
+      // find the text after track span
+      var spans = mf.parentNode.querySelectorAll('span');
+      // last sibling text
+    }
+    var menuFlipLabel = document.querySelector('#menu-dialog .menu-section label.switch');
+    // update text by setting the label's trailing text
+    // (simpler: keep "Otomatik tahta çevirme" replaced via known id-less; do nothing special)
+
+    var selLang = document.getElementById('sel-lang');
+    if (selLang) selLang.value = code;
+
+    renderAll();
+  }
+
+  function setTxt(id, val) {
+    var el = document.getElementById(id);
+    if (el) el.textContent = val;
+  }
   var G = {
     state: E.initial(),
     hist: [],
@@ -283,32 +408,34 @@
     var s = G.state;
 
     turnDotEl.className = 'turn-dot ' + s.turn;
-    turnTextEl.textContent = 'Sıra: ' + TR_SIDE[s.turn];
+    turnTextEl.textContent = t('turnPrefix') + (s.turn === 'w' ? t('sideW') : t('sideB'));
 
     if (G.over) {
       noteEl.classList.remove('alert');
       var o = G.over;
       if (o.reason === 'checkmate') {
         noteEl.classList.add('alert');
-        noteEl.textContent = 'Mat! ' + TR_SIDE[o.winner] + ' kazandı.';
+        noteEl.textContent = t('mateMsg', { side: (o.winner === 'w' ? t('sideW') : t('sideB')) });
       } else if (o.reason === 'stalemate') {
-        noteEl.textContent = 'Pat — oyun berabere bitti.';
+        noteEl.textContent = t('drawMsg');
       } else if (o.reason === 'fifty') {
-        noteEl.textContent = '50 hamle kuralı — oyun berabere bitti.';
+        noteEl.textContent = t('drawMsg');
       } else if (o.reason === 'material') {
-        noteEl.textContent = 'Yetersiz malzeme — oyun berabere bitti.';
+        noteEl.textContent = t('drawMsg');
       } else if (o.reason === 'repetition') {
-        noteEl.textContent = 'Üç kez tekrar — oyun berabere bitti.';
+        noteEl.textContent = t('drawMsg');
+      } else if (o.reason === 'timeout') {
+        noteEl.textContent = t('timeoutMsg', { side: (o.winner === 'w' ? t('sideW') : t('sideB')) });
       }
     } else if (G.moves.length === 0) {
       noteEl.classList.remove('alert');
-      noteEl.textContent = 'Beyaz başlar. Taş seçmek için tıkla.';
+      noteEl.textContent = t('statusStart');
     } else if (G.check) {
       noteEl.classList.add('alert');
-      noteEl.textContent = 'Şah! ' + TR_SIDE[s.turn] + ' kurtulmalı.';
+      noteEl.textContent = t('statusCheck', { side: (s.turn === 'w' ? t('sideW') : t('sideB')) });
     } else {
       noteEl.classList.remove('alert');
-      noteEl.textContent = 'Normal oyun sürüyor.';
+      noteEl.textContent = t('statusNormal');
     }
 
     // Hamle listesi
@@ -316,7 +443,7 @@
     if (!G.moves.length) {
       var li = document.createElement('li');
       li.className = 'empty';
-      li.textContent = 'Henüz hamle yok.';
+      li.textContent = t('noMoves');
       moveListEl.appendChild(li);
     } else {
       for (var i = 0; i < G.moves.length; i += 2) {
@@ -534,7 +661,7 @@
 
   function onSquareClick(e) {
     if (justDragged) { justDragged = false; return; }
-    if (G.over) { announce('Oyun bitti — Yeni Oyun ile başlayın.'); return; }
+    if (G.over) { announce(t('gameoverMsg')); return; }
     var sq = e.target.closest ? e.target.closest('.square') : null;
     if (!sq) return;
     var r = +sq.dataset.r, c = +sq.dataset.c;
@@ -591,12 +718,12 @@
     if (!G.over && G.check) soundCheck();
     if (G.over) {
       if (G.over.reason === 'checkmate') {
-        announce('Mat! ' + TR_SIDE[G.over.winner] + ' kazandı.');
+        announce(t('mateMsg', { side: (G.over.winner === 'w' ? t('sideW') : t('sideB')) }));
       } else {
-        announce('Oyun berabere bitti.');
+        announce(t('drawMsg'));
       }
     } else if (G.check) {
-      announce('Şah!');
+      announce(t('checkMsg'));
     }
 
     if (G.autoFlip && !G.over) setOrientation(G.state.turn, true);
@@ -678,7 +805,7 @@
     setOrientation('w', G.orientation !== null);
     renderAll();
     save();
-    announce('Yeni oyun başladı. Beyaz oynar.');
+    announce(t('newGameMsg'));
   }
 
   function newGame() {
@@ -737,7 +864,7 @@
     if (G.clock) { G.clock.running = G.over ? null : G.state.turn; G.clock.lastTick = Date.now(); updateClockDisplay(); if (G.clock.running && !clockInterval) clockInterval = setInterval(tickClock, 200); }
     renderAll();
     save();
-    announce('Hamle geri alındı.');
+    announce(t('undoMsg'));
   }
 
   function redo() {
@@ -760,7 +887,7 @@
     if (G.clock) { G.clock.running = G.over ? null : G.state.turn; G.clock.lastTick = Date.now(); updateClockDisplay(); if (G.clock.running && !clockInterval) clockInterval = setInterval(tickClock, 200); }
     renderAll();
     save();
-    announce('Hamle ileri alındı.');
+    announce(t('redoMsg'));
   }
 
   /* ---------- saat ---------- */
@@ -794,7 +921,7 @@
         G.over = { reason: 'timeout', winner: r === 'w' ? 'b' : 'w' };
         renderAll();
         save();
-        announce('Süre doldu! ' + TR_SIDE[G.over.winner] + ' kazandı.');
+        announce(t('timeoutMsg', { side: (G.over.winner === 'w' ? t('sideW') : t('sideB')) }));
       }
     }
   }
@@ -968,6 +1095,7 @@
         flip: G.autoFlip,
         clockConfig: G.clockConfig,
         theme: G.theme,
+        lang: G.lang,
         redo: G.redo.map(function (en) {
           return {
             s: serializeState(en.state),
@@ -1017,6 +1145,7 @@
         };
       }
       if (data.theme) G.theme = data.theme;
+      if (data.lang && I18N[data.lang]) G.lang = data.lang;
 
       clearSelection();
       rebuildReps();
@@ -1139,8 +1268,14 @@
       setOrientation(E.opp(G.orientation), true);
     });
 
-    setupStart.addEventListener('click', startFromSetup);
-    setupCancel.addEventListener('click', function () { setupDialog.close(); });
+    var selLang = document.getElementById('sel-lang');
+    if (selLang) {
+      selLang.value = G.lang || 'tr';
+      selLang.addEventListener('change', function () {
+        applyLanguage(selLang.value);
+        save();
+      });
+    }
 
     var btnMenu = document.getElementById('btn-menu');
     var menuDialog = document.getElementById('menu-dialog');
@@ -1316,6 +1451,7 @@
   }
 
   applyTheme(G.theme || 'default');
+  applyLanguage(G.lang || 'tr');
   wireControls();
   G.orientation = null;
   setOrientation(G.autoFlip && !G.over ? G.state.turn : 'w', false);

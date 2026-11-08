@@ -35,7 +35,7 @@
         <span class="name">En Passant</span>
       </p>
       <div class="masthead-actions">
-        <button id="btn-home" class="btn btn-home" type="button" aria-label="Ana menüye dön">⌂ Ana Menü</button>
+        <button id="btn-home" class="btn btn-home" type="button" aria-label="Ana menüye dön">Ana Menü</button>
       </div>
     </header>
 
@@ -47,7 +47,7 @@
 
     <aside class="panel" aria-label="Oyun paneli">
       <section class="card status-card">
-        <h2 class="card-title">Durum</h2>
+        <h2 class="card-title" id="card-status">Durum</h2>
         <p class="turn-row">
           <span class="turn-dot w" id="turn-dot" aria-hidden="true"></span>
           <strong id="turn-text">Sıra: Beyaz</strong>
@@ -60,24 +60,24 @@
       </section>
 
       <section class="card">
-        <h2 class="card-title">Hamleler</h2>
+        <h2 class="card-title" id="card-moves">Hamleler</h2>
         <ol id="move-list" class="move-list" aria-label="Hamle listesi"></ol>
       </section>
 
       <section class="card">
-        <h2 class="card-title">Alınan taşlar</h2>
+        <h2 class="card-title" id="card-captured">Alınan taşlar</h2>
         <div class="cap-group">
-          <p class="cap-label">Beyaz'ın aldıkları <span class="mat-diff" id="diff-white"></span></p>
+          <p class="cap-label" id="cap-label-w">Beyaz'ın aldıkları <span class="mat-diff" id="diff-white"></span></p>
           <div class="cap-row" id="cap-white"></div>
         </div>
         <div class="cap-group">
-          <p class="cap-label">Siyah'ın aldıkları <span class="mat-diff" id="diff-black"></span></p>
+          <p class="cap-label" id="cap-label-b">Siyah'ın aldıkları <span class="mat-diff" id="diff-black"></span></p>
           <div class="cap-row" id="cap-black"></div>
         </div>
       </section>
 
       <section class="card">
-        <h2 class="card-title">Müzik (YouTube)</h2>
+        <h2 class="card-title" id="card-music">Müzik (YouTube)</h2>
         <div class="music-row">
           <input type="text" id="yt-url" class="music-input" placeholder="YouTube linki yapıştır">
           <button id="btn-yt-load" class="btn" type="button">Yükle</button>
@@ -92,7 +92,7 @@
       <div id="yt-player" class="yt-hidden"></div>
 
       <section class="card controls-card">
-        <h2 class="card-title">Denetimler</h2>
+        <h2 class="card-title" id="card-controls">Denetimler</h2>
         <div class="btn-row">
           <button id="btn-new" class="btn primary" type="button">Yeni Oyun</button>
           <button id="btn-undo" class="btn" type="button">Geri Al</button>
@@ -138,6 +138,23 @@
 
   <dialog id="menu-dialog" class="menu-dialog" aria-labelledby="menu-title">
     <h2 id="menu-title">Menü &amp; Ayarlar</h2>
+    <section class="menu-section">
+      <h3>Dil</h3>
+      <select id="sel-lang" class="tc-select">
+        <option value="tr">Türkçe</option>
+        <option value="en">English</option>
+        <option value="de">Deutsch</option>
+        <option value="es">Español</option>
+        <option value="fr">Français</option>
+        <option value="it">Italiano</option>
+        <option value="pt">Português</option>
+        <option value="ru">Русский</option>
+        <option value="ja">日本語</option>
+        <option value="zh">中文</option>
+        <option value="ar">العربية</option>
+        <option value="ko">한국어</option>
+      </select>
+    </section>
     <section class="menu-section">
       <h3>Tema</h3>
       <p class="menu-hint">Arayüz ve tahta renklerini değiştirin.</p>
