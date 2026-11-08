@@ -60,7 +60,8 @@
     sound: false,
     redo: [],
     clock: null,
-    clockConfig: { w: 300000, b: 300000, inc: 0 }
+    clockConfig: { w: 300000, b: 300000, inc: 0 },
+    theme: 'default'
   };
 
   /* ============================================================
@@ -967,6 +968,7 @@
         }),
         flip: G.autoFlip,
         clockConfig: G.clockConfig,
+        theme: G.theme,
         redo: G.redo.map(function (en) {
           return {
             s: serializeState(en.state),
@@ -1015,6 +1017,7 @@
           inc: clamp(cc.inc)
         };
       }
+      if (data.theme) G.theme = data.theme;
 
       clearSelection();
       rebuildReps();
@@ -1049,6 +1052,15 @@
     confirmResolver = null;
   });
   confirmDialog.addEventListener('close', function () { confirmResolver = null; });
+  function applyTheme(name) {
+    if (!name) name = 'default';
+    document.documentElement.setAttribute('data-theme', name === 'default' ? '' : name);
+    if (name === 'default') document.documentElement.removeAttribute('data-theme');
+    G.theme = name;
+    var sel = document.getElementById('sel-theme');
+    if (sel) sel.value = name;
+  }
+
   function wireControls() {
     btnNew.addEventListener('click', newGame);
     btnUndo.addEventListener('click', undo);
@@ -1066,6 +1078,15 @@
       if (G.autoFlip && !G.over) setOrientation(G.state.turn, true);
       save();
     });
+
+    var selTheme = document.getElementById('sel-theme');
+    if (selTheme) {
+      selTheme.value = G.theme || 'default';
+      selTheme.addEventListener('change', function () {
+        applyTheme(selTheme.value);
+        save();
+      });
+    }
 
     // YouTube müzik
     var btnYtLoad = document.getElementById('btn-yt-load');
@@ -1171,8 +1192,8 @@
     chkFlip.checked = G.autoFlip;
   }
 
+  applyTheme(G.theme || 'default');
   wireControls();
-  if (!G.timeControl) G.timeControl = (document.getElementById('sel-time') ? document.getElementById('sel-time').value : '0');
   G.orientation = null;
   setOrientation(G.autoFlip && !G.over ? G.state.turn : 'w', false);
   initClock();
