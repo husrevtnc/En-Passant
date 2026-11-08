@@ -1074,11 +1074,10 @@
       btn.dataset.theme = t.id;
       btn.setAttribute('aria-label', t.name);
       btn.innerHTML = '<span class="swatch-preview" style="background:' + t.bg + '">' +
-        '<span class="sq" style="background:' + t.sqL + '"></span>' +
+        '<span class="sq" style="background:' + t.sqL + '"><span class="piece white">♞</span></span>' +
+        '<span class="sq" style="background:' + t.sqD + '"><span class="piece black">♞</span></span>' +
         '<span class="sq" style="background:' + t.sqD + '"></span>' +
-        '<span class="sq" style="background:' + t.sqD + '"></span>' +
         '<span class="sq" style="background:' + t.sqL + '"></span>' +
-        '<span class="swatch-piece">♞</span>' +
         '</span><span class="swatch-name">' + t.name + '</span>';
       btn.addEventListener('click', function () {
         applyTheme(t.id);
